@@ -1,0 +1,70 @@
+/* Home page: the name taken literally. Four quarters meet at a centre hub;
+   each quarter's content sits in its own outer corner, pointing away from the centre. */
+.quad {
+  position: relative;
+  display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr; gap: 6px;
+  height: calc(100vh - 58px); min-height: 600px; max-height: 920px;
+  padding: 6px;
+}
+.piece {
+  position: relative; display: flex; flex-direction: column; gap: 10px;
+  padding: clamp(22px, 4vw, 56px); text-decoration: none; color: #fff; overflow: hidden;
+  transition: filter .2s;
+}
+.piece:hover { filter: brightness(1.06) saturate(1.05); }
+.piece:focus-visible { outline: 4px solid var(--ink); outline-offset: -4px; }
+.piece h2 { font-size: clamp(40px, 6.4vw, 92px); font-stretch: 75%; font-weight: 700; line-height: .92; letter-spacing: -.01em; }
+.piece p { max-width: 36ch; font-size: clamp(16px, 1.35vw, 19px); line-height: 1.45; opacity: .94; }
+.piece .open { margin-top: 4px; font-weight: 600; text-decoration: underline; text-underline-offset: 4px; text-decoration-thickness: 2px; }
+.needs { list-style: none; margin: 0; padding: 0; display: flex; gap: 6px; flex-wrap: wrap; }
+.needs li { font-size: 13.5px; padding: 3px 10px; border-radius: 999px; background: rgba(255, 255, 255, .18); }
+
+/* each quarter: its colour, its outer corner, content pushed to that corner */
+.p-stock { background: var(--stock); border-radius: 40px 8px 8px 8px; justify-content: flex-start; align-items: flex-start; padding-right: 22%; }
+.p-paper { background: var(--paper); color: var(--ink); border-radius: 8px 40px 8px 8px; justify-content: flex-start; align-items: flex-end; text-align: right; padding-left: 22%; }
+.p-paper .needs li { background: rgba(29, 33, 41, .1); }
+.p-paper .needs { justify-content: flex-end; }
+.p-fixit { background: var(--fixit); border-radius: 8px 8px 8px 40px; justify-content: flex-end; align-items: flex-start; padding-right: 22%; }
+.p-fresh { background: var(--fresh); border-radius: 8px 8px 40px 8px; justify-content: flex-end; align-items: flex-end; text-align: right; padding-left: 22%; }
+.p-fresh .needs { justify-content: flex-end; }
+
+/* the hub where the four meet */
+.hub {
+  position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%);
+  width: clamp(120px, 15vw, 190px); aspect-ratio: 1; border-radius: 50%;
+  background: var(--chalk); padding: 14px; pointer-events: none;
+  box-shadow: 0 0 0 6px var(--chalk);
+}
+.hub svg { width: 100%; height: 100%; }
+.title { position: absolute; left: 50%; top: calc(50% + clamp(70px, 8.5vw, 104px)); transform: translateX(-50%); text-align: center; pointer-events: none; background: var(--chalk); padding: 8px 18px 10px; border-radius: 14px; }
+.title h1 { font-size: clamp(26px, 2.6vw, 36px); font-stretch: 80%; }
+.title p { font-size: 14px; color: var(--ink-2); white-space: nowrap; }
+
+/* setup */
+.setup { padding-top: 48px; }
+.setup > h2 { font-size: 31px; margin-bottom: 18px; }
+.setup-grid { display: grid; grid-template-columns: 1.1fr 1fr 1fr; gap: 16px; align-items: start; }
+.setup-grid h3 { margin-bottom: 12px; }
+.setup-grid p { color: var(--ink-2); }
+.keys { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
+.keys li { display: grid; grid-template-columns: auto 1fr; gap: 12px; align-items: start; }
+.keys li .status { min-width: 84px; justify-content: center; margin-top: 2px; }
+.keys b { display: block; font-size: 15px; overflow-wrap: anywhere; }
+.keys span:not(.status) { font-size: 14px; color: var(--ink-3); }
+.team td:first-child { font-family: inherit; color: var(--ink-2); }
+.privacy { margin-top: 18px; max-width: 80ch; }
+
+@media (max-width: 900px) {
+  .setup-grid { grid-template-columns: 1fr; }
+}
+@media (max-width: 720px) {
+  .quad { display: flex; flex-direction: column; height: auto; max-height: none; min-height: 0; padding-top: 20px; }
+  .hub, .title { position: static; transform: none; order: -1; margin: 0 auto; }
+  .piece, .p-stock, .p-paper, .p-fixit, .p-fresh { border-radius: 8px; padding: 26px 22px; text-align: left; align-items: flex-start; justify-content: flex-start; flex-direction: column; }
+  .p-stock { border-radius: 28px 28px 8px 8px; }
+  .p-fresh { border-radius: 8px 8px 28px 28px; }
+  .p-paper .needs, .p-fresh .needs { justify-content: flex-start; }
+  .piece h2 { font-size: 46px; }
+  .hub { width: 72px; box-shadow: none; padding: 0; background: none; }
+  .title { padding: 4px 0 14px; background: none; }
+}

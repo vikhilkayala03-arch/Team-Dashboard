@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Paper Helper · Quadrant</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M17.2 14.8H29.95A14 14 0 0 0 17.2 2.05Z' fill='%23d99a06'/%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anek+Latin:wdth,wght@75..125,100..800&family=Anek+Telugu:wdth,wght@75..125,100..800&family=Anek+Devanagari:wdth,wght@75..125,100..800&display=swap">
+  <link rel="stylesheet" href="../shared/quadrant.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="app-paperhelper">
+  <main class="page">
+    <section class="app-head">
+      <div>
+        <h1>Paper Helper</h1>
+        <p>Take a photo of any letter, bill, notice or form. Get it explained in your language: what it says, what you need to do, by when, and whether it looks like a scam.</p>
+      </div>
+      <svg class="head-art" viewBox="0 0 120 120" fill="none" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M30 10h44l20 20v80H30z"/><path d="M74 10v20h20M44 54h36M44 70h36M44 86h22"/></svg>
+    </section>
+
+    <ol class="flow" id="flow">
+      <li class="now">Add the paper</li>
+      <li>Read it in your language</li>
+      <li>Do what it asks, on time</li>
+    </ol>
+
+    <div class="grid-2">
+      <div class="stack">
+        <div class="panel">
+          <div class="panel-head"><h2>Add the paper</h2><span class="hint">Up to 5 pages, or a PDF</span></div>
+          <div id="file-note" hidden style="margin-bottom:12px"></div>
+          <div id="shots"></div>
+          <div class="field" style="margin-top:14px"><label for="note">Anything to add? (optional)</label>
+            <textarea id="note" placeholder="For example: this came by SMS link, or I got this from the bank"></textarea></div>
+          <div class="row" style="margin-top:14px"><button class="btn btn-app" type="button" id="read-btn" disabled>Explain this paper</button><span class="small muted" id="lang-note"></span></div>
+          <p class="ai-note" style="margin-top:12px">The photos go to Google Gemini to be read and are not stored by this app. You can cover Aadhaar, PAN or bank numbers before taking the photo; they are not needed.</p>
+        </div>
+        <div class="panel">
+          <div class="panel-head"><h3>Papers you checked</h3><span class="hint">Saved on this device only</span></div>
+          <ul class="list history" id="history"></ul>
+        </div>
+      </div>
+
+      <div class="panel result" id="result">
+        <div class="empty">
+          <h3>Your explanation appears here</h3>
+          <p>Electricity bill, bank letter, school circular, court or police notice, land record, insurance form, prescription: any paper you find hard to read.</p>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script src="../config.js"></script>
+  <script src="../shared/quadrant.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>

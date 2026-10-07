@@ -1,0 +1,7 @@
+const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
+const modal=$("#teamModal"), openTeam=()=>{modal.classList.add("open");modal.setAttribute("aria-hidden","false");document.body.style.overflow="hidden"}, closeTeam=()=>{modal.classList.remove("open");modal.setAttribute("aria-hidden","true");document.body.style.overflow=""};
+$("#teamBtn").onclick=openTeam;$("#heroTeam").onclick=openTeam;$("#teamBannerBtn").onclick=openTeam;$("#closeTeam").onclick=closeTeam;
+modal.addEventListener("click",e=>{if(e.target===modal)closeTeam()});document.addEventListener("keydown",e=>{if(e.key==="Escape")closeTeam()});
+const search=$("#search");search.addEventListener("input",()=>{const q=search.value.toLowerCase().trim();$$(".app-card").forEach(c=>c.classList.toggle("hidden",q&&!c.dataset.name.toLowerCase().includes(q)));$$(".owner-section").forEach(s=>{const cards=$$(".app-card",s);s.classList.toggle("hidden",cards.length>0&&!cards.some(c=>!c.classList.contains("hidden")))})});
+const menu=$("#menuBtn"), sidebar=$("#sidebar");menu.onclick=()=>sidebar.classList.toggle("open");$$(".side-nav a").forEach(a=>a.addEventListener("click",()=>sidebar.classList.remove("open")));
+const sections=$$(".owner-section"), navLinks=$$(".side-nav a");const io=new IntersectionObserver(entries=>entries.forEach(e=>{if(e.isIntersecting){navLinks.forEach(a=>a.classList.remove("active"));const a=$(`.side-nav a[href="#${e.target.id}"]`);if(a)a.classList.add("active")}}),{rootMargin:"-35% 0px -55% 0px"});sections.forEach(s=>io.observe(s));

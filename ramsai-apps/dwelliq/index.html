@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#142e2c">
+  <meta name="description" content="Explore your property's potential with DwellIQ. Explainable sample valuations, market insights, and an interactive property simulator.">
+  <title>DwellIQ — A clearer view of your property’s value</title>
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="style.css">
+  <script src="engine.js" defer></script>
+  <script src="reports.js" defer></script>
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <aside class="sidebar">
+    <a class="brand" href="#home" aria-label="DwellIQ home"><span class="brand-symbol">⌂</span><span>Dwell<span class="brand-iq">IQ</span><small>PROPERTY INTELLIGENCE</small></span></a>
+    <div class="workspace-label">YOUR WORKSPACE</div>
+    <nav aria-label="Main navigation" id="navigation"></nav>
+    <div class="sidebar-bottom"><div class="side-promo"><span class="sparkle">✧</span><strong>A little insight.<br>A smarter decision.</strong><p>Explore the possibilities of<br>your next home.</p><button class="button light small" data-route="predict">Get an estimate <span>↗</span></button></div><button class="sidebar-admin" data-route="admin"><span>⚙</span> Demo admin <span class="tiny-pill">LOCAL</span></button><button class="side-user" data-route="profile"><span class="avatar">JD</span><span><strong id="sidebar-name">Jamie Davis</strong><small>Personal workspace</small></span><span>↗</span></button></div>
+  </aside>
+  <div class="app-shell">
+    <header class="topbar"><div class="breadcrumb"><span>DwellIQ</span><span>/</span><strong id="page-label">Overview</strong></div><div class="topbar-actions"><span class="sample-indicator"><i></i> Sample data experience</span><button id="theme-toggle" class="icon-button" aria-label="Switch to dark mode" title="Switch theme">☾</button><button class="avatar top-avatar" data-route="profile" aria-label="Open profile">JD</button></div></header>
+    <main id="main" tabindex="-1"></main>
+    <footer class="footer"><span>© <span id="year"></span> DwellIQ <span class="footer-dot">·</span> A clearer view of home.</span><button id="disclaimer-button">About these estimates ↗</button></footer>
+  </div>
+  <button id="assistant-toggle" class="assistant-toggle" aria-label="Open Property AI Assistant"><span>✧</span><span>Ask DwellIQ</span><span class="assistant-dot"></span></button>
+  <section id="assistant" class="assistant-panel" aria-label="Property assistant" hidden><header><span class="assistant-icon">✧</span><div><strong>Property AI Assistant</strong><small>Local guide · sample estimates</small></div><button class="icon-button" id="assistant-close" aria-label="Close assistant">×</button></header><div id="chat-messages" class="chat-messages" role="log" aria-live="polite"></div><div class="chat-suggestions"><button data-question="What can increase its value?">Increase value</button><button data-question="Is this property overpriced?">Overpriced?</button><button data-question="What will it be worth in 5 years?">5-year outlook</button></div><form id="chat-form"><label class="sr-only" for="chat-input">Ask a property question</label><input id="chat-input" placeholder="Ask about your property…" maxlength="500" required><button class="button primary" aria-label="Send question">↑</button></form><small class="chat-note">Automated local explanations. No external AI connected.</small></section>
+  <dialog id="modal"><div id="modal-content"></div><button class="modal-close icon-button" aria-label="Close dialog">×</button></dialog>
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+</body>
+</html>

@@ -1,0 +1,18 @@
+import {chromium} from '@playwright/test';
+import {mkdir} from 'node:fs/promises';
+await mkdir(new URL('../docs/qa/',import.meta.url),{recursive:true});
+const browser=await chromium.launch({executablePath:process.env.SKINMIX_CHROME||'C:/Program Files/Google/Chrome/Application/chrome.exe',headless:true});
+const context=await browser.newContext({viewport:{width:1440,height:1000}});
+const page=await context.newPage();
+await page.goto('http://127.0.0.1:5173');
+await page.screenshot({path:'docs/qa/home-desktop.png'});
+await page.setViewportSize({width:390,height:844});
+await page.screenshot({path:'docs/qa/home-mobile.png'});
+await page.goto('http://127.0.0.1:5173/#builder?kit=plum-cleanser,minimalist-serum,plum-moisturizer,deconstruct-sunscreen&budget=1000');
+await page.getByRole('button',{name:'View My Routine'}).click();
+await page.waitForFunction(()=>!document.querySelector('#toast').classList.contains('visible'));
+await page.screenshot({path:'docs/qa/routine-mobile.png',fullPage:true});
+await page.setViewportSize({width:1440,height:1000});
+await page.screenshot({path:'docs/qa/routine-desktop.png',fullPage:true});
+await context.close();await browser.close();
+console.log('Final preview screenshots saved under docs/qa/.');

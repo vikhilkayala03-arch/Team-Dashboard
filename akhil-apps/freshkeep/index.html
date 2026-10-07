@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>FreshKeep · Quadrant</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M17.2 17.2V29.95A14 14 0 0 0 29.95 17.2Z' fill='%23437a26'/%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anek+Latin:wdth,wght@75..125,100..800&family=Anek+Telugu:wdth,wght@75..125,100..800&family=Anek+Devanagari:wdth,wght@75..125,100..800&display=swap">
+  <link rel="stylesheet" href="../shared/quadrant.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="app-freshkeep">
+  <main class="page">
+    <section class="app-head">
+      <div>
+        <h1>FreshKeep</h1>
+        <p>Photograph your vegetables, fruits or groceries. See how many days each will last in your weather, what to cook first, and a meal plan that uses everything before it spoils.</p>
+      </div>
+      <svg class="head-art" viewBox="0 0 120 120" fill="none" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M60 108c-26 0-40-20-40-44 0-18 12-30 26-30 6 0 10 3 14 3s8-3 14-3c14 0 26 12 26 30 0 24-14 44-40 44z"/><path d="M60 34c0-12 6-20 18-24"/></svg>
+    </section>
+
+    <ol class="flow" id="flow">
+      <li class="now">Show your food</li>
+      <li>Check against your weather</li>
+      <li>Cook what spoils first</li>
+    </ol>
+
+    <div class="grid-2">
+      <div class="stack">
+        <div class="panel">
+          <div class="panel-head"><h2>Show your food</h2><span class="hint">Up to 3 photos</span></div>
+          <div id="file-note" hidden style="margin-bottom:12px"></div>
+          <div id="shots"></div>
+        </div>
+        <div class="panel">
+          <div class="panel-head"><h2>Your weather</h2><span class="hint">Heat makes food spoil faster</span></div>
+          <div id="place"></div>
+          <div id="weather" style="margin-top:12px"></div>
+        </div>
+        <div class="panel">
+          <div class="panel-head"><h2>Your kitchen</h2></div>
+          <div class="pref-grid">
+            <div class="field"><label for="diet">Food</label><select id="diet"><option value="vegetarian">Vegetarian</option><option value="eggetarian">Vegetarian with egg</option><option value="non-vegetarian">Non-vegetarian</option></select></div>
+            <div class="field"><label for="style">Cooking style</label><select id="style"><option value="South Indian (Andhra, Telangana, Tamil, Karnataka, Kerala)">South Indian</option><option value="North Indian">North Indian</option><option value="any Indian home style">Any Indian</option></select></div>
+            <div class="field"><label for="people">People</label><input class="input" id="people" type="number" min="1" max="20" value="4" inputmode="numeric"></div>
+          </div>
+          <div class="row" style="margin-top:14px"><button class="btn btn-app" type="button" id="check-btn" disabled>Check my food</button></div>
+        </div>
+      </div>
+
+      <div class="stack">
+        <div class="panel result" id="result">
+          <div class="empty">
+            <h3>Each item's days left appear here</h3>
+            <p>Tomatoes, greens, onions, bananas, milk, curd, bread, leftover rice: put them together and take one photo.</p>
+          </div>
+        </div>
+        <div class="panel" id="plan-panel" hidden></div>
+      </div>
+    </div>
+
+    <div class="panel" style="margin-top:16px">
+      <div class="panel-head"><h2>Tracked in my kitchen</h2><span class="hint" id="track-hint">Saved on this device. Counts down every day.</span></div>
+      <ul class="track" id="track"></ul>
+      <div class="row" style="margin-top:12px" id="track-actions" hidden><button class="btn btn-app" type="button" id="plan-tracked">Plan meals from these</button><button class="btn btn-quiet" type="button" id="clear-track">Clear all</button></div>
+    </div>
+  </main>
+
+  <script src="../config.js"></script>
+  <script src="../shared/quadrant.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>

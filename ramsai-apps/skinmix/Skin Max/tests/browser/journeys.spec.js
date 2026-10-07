@@ -1,0 +1,90 @@
+import {test,expect} from '@playwright/test';
+
+test('budget recommendation, customization, routine and saved kit survive reload',async({page})=>{
+ await page.goto('/#builder');
+ await page.locator('#routine-form input[value="oily"]').check();
+ await page.locator('#routine-form input[value="Acne"]').check();
+ await page.locator('#routine-form input[name="budget"]').fill('999');
+ await page.getByRole('button',{name:'Build My Routine',exact:true}).click();
+ await expect(page.getByRole('heading',{name:'Your personalized routine'})).toBeVisible();
+ await expect(page.locator('.kit-row')).toHaveCount(4);
+ const stored=await page.evaluate(()=>JSON.parse(localStorage.getItem('skinmix-v1')));
+ expect(stored.profile.budget).toBe(999);
+ await expect(page.locator('.budget-status')).not.toHaveClass(/danger/);
+ await page.getByRole('button',{name:'View My Routine'}).click();
+ await expect(page.getByRole('heading',{name:'Morning Routine'})).toBeVisible();
+ await expect(page.getByRole('heading',{name:'Night Routine'})).toBeVisible();
+ expect(await page.locator('.routine-card').nth(1).innerText()).not.toContain('Sunscreen');
+ await page.getByRole('button',{name:'Save Kit',exact:true}).click();
+ await page.locator('#save-kit-form input[name="name"]').fill('My Daily Routine');
+ await page.locator('#save-kit-form button[type="submit"]').click();
+ await page.goto('/#profile');
+ await expect(page.getByRole('heading',{name:'My Daily Routine'})).toBeVisible();
+ await page.reload();
+ await expect(page.getByRole('heading',{name:'My Daily Routine'})).toBeVisible();
+ await page.getByRole('button',{name:'Load Kit',exact:true}).click();
+ await expect(page.locator('.kit-row')).toHaveCount(4);
+});
+
+test('search, intersecting filters, wishlist, seller comparison and price alerts work',async({page})=>{
+ const errors=[];page.on('pageerror',e=>errors.push(e.message));
+ await page.goto('/');
+ await page.locator('#search-input').fill('Best sunscreen under ₹500');
+ await page.locator('#search-form').evaluate(f=>f.requestSubmit());
+ await expect(page.locator('.product-card')).toHaveCount(2);
+ await page.locator('#filters-form select[name="brand"]').selectOption('Deconstruct');
+ await page.getByRole('button',{name:'Apply Filters',exact:true}).click();
+ await expect(page.locator('.product-card')).toHaveCount(1);
+ await page.locator('.heart-button').click();
+ await page.goto('/#wishlist');
+ await expect(page.locator('.product-card')).toHaveCount(1);
+ await page.locator('.product-name').click();
+ await expect(page.getByRole('heading',{name:'Compare seller prices'})).toBeVisible();
+ await expect(page.locator('.seller-row')).toHaveCount(3);
+ await page.getByRole('button',{name:'Set a price drop alert'}).click();
+ await page.locator('#alert-form input[name="target"]').fill('180');
+ await page.locator('#alert-form button[type="submit"]').click();
+ await page.goto('/#profile');
+ await expect(page.locator('.alert-row')).toContainText('Target ₹180');
+ expect(errors).toEqual([]);
+});
+
+test('cart quantities, discounts, coupon and validated demo checkout complete',async({page})=>{
+ await page.goto('/#product/minimalist-serum');
+ await page.locator('.detail-actions').getByRole('button',{name:'Add to Cart',exact:true}).click();
+ await page.goto('/#cart');
+ await page.getByRole('button',{name:/Increase quantity/}).click();
+ await page.locator('#coupon-input').fill('SKIN10');
+ await page.getByRole('button',{name:'Apply',exact:true}).click();
+ await expect(page.locator('.final-total dd')).toHaveText('₹808');
+ await page.getByRole('link',{name:'Continue to Checkout'}).click();
+ await page.locator('#checkout-form input[name="name"]').fill('Demo Customer');
+ await page.locator('#checkout-form input[name="email"]').fill('demo@example.com');
+ await page.locator('#checkout-form input[name="phone"]').fill('9999999999');
+ await page.locator('#checkout-form input[name="pin"]').fill('600001');
+ await page.locator('#checkout-form textarea').fill('123 Sample Street, Demo City');
+ await page.getByRole('button',{name:/Complete Demo Order/}).click();
+ await expect(page.getByRole('heading',{name:'Your demo mix is complete.'})).toBeVisible();
+ const state=await page.evaluate(()=>JSON.parse(localStorage.getItem('skinmix-v1')));
+ expect(state.cart).toEqual([]);expect(state.orders[0].total).toBe(808);
+ expect(JSON.stringify(state)).not.toContain('demo@example.com');
+});
+
+test('mobile layout, core navigation and empty states remain usable',async({page})=>{
+ await page.setViewportSize({width:390,height:844});
+ await page.goto('/');
+ await expect(page.locator('.bottom-nav')).toBeVisible();
+ await page.screenshot({path:'test-results/home-mobile.png',fullPage:true});
+ expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
+ await page.locator('.bottom-nav').getByRole('link',{name:'Build Kit'}).click();
+ await expect(page.getByRole('button',{name:'Build My Routine',exact:true})).toBeVisible();
+ expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
+ await page.goto('/#cart');
+ await expect(page.getByRole('heading',{name:'Your bag is feeling light.'})).toBeVisible();
+ await page.goto('/#discover');
+ await page.locator('#filters-form input[name="max"]').fill('1');
+ await page.getByRole('button',{name:'Apply Filters',exact:true}).click();
+ await expect(page.getByRole('heading',{name:'A fresh start?'})).toBeVisible();
+ await page.getByRole('button',{name:'Reset',exact:true}).click();
+ await expect(page.locator('.product-card')).toHaveCount(24);
+});

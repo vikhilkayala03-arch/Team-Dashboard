@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>GreenRoots | Smart Farming Companion</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Fraunces:wght@600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css"></head>
+<body>
+<aside class="side"><div class="brand">Green<span>Roots</span></div>
+ <nav class="nav" aria-label="Main">
+  <button data-view="home">🏡 Home</button><button data-view="advisor">🌱 Crop Advisor</button><button data-view="doctor">🩺 Plant Doctor</button>
+  <button data-view="calc">🧮 Profit Calculator</button><button data-view="calendar">📅 Sowing Calendar</button><button data-view="weather">⛅ Field Weather</button>
+ </nav><small>Figures are illustrative. Always confirm with your local KVK or agriculture officer.</small></aside>
+<main>
+<!-- HOME -->
+<section class="view" id="v-home">
+ <div class="hero"><div><h1>Know what to grow, when to sow and what it can earn.</h1>
+  <p class="sub">GreenRoots turns your soil, season and water into clear crop choices, checks plant problems, and plans profit before you spend a rupee.</p>
+  <div class="row"><button class="btn gold" data-go="advisor">Find my best crop</button><button class="btn ghost" data-go="doctor">Check a sick plant</button></div></div>
+  <div class="field"><h3 id="monthName"></h3><p>Sow now</p><div class="chips" id="sowNow"></div><p style="margin-top:16px">Harvest now</p><div class="chips" id="harNow"></div></div></div>
+ <div class="grid g3">
+  <button class="card tool" data-go="advisor"><div class="e">🌱</div><h3>Crop Advisor</h3><p class="sub">Pick soil, season and water. Get ranked crops with expected profit.</p></button>
+  <button class="card tool" data-go="doctor"><div class="e">🩺</div><h3>Plant Doctor</h3><p class="sub">Tick the symptoms you see. Get likely causes and organic-first fixes.</p></button>
+  <button class="card tool" data-go="calc"><div class="e">🧮</div><h3>Profit Calculator</h3><p class="sub">Cost, revenue, break-even price, and what a 20% price fall does.</p></button>
+  <button class="card tool" data-go="calendar"><div class="e">📅</div><h3>Sowing Calendar</h3><p class="sub">See sowing and harvest months for 15 crops, with this month marked.</p></button>
+  <button class="card tool" data-go="weather"><div class="e">⛅</div><h3>Field Weather</h3><p class="sub">Live forecast for your location with spraying and irrigation advice.</p></button>
+  <button class="card tool" id="openChat"><div class="e">🎙️</div><h3>Ask by voice</h3><p class="sub">Speak your question to the GreenRoots assistant and hear the answer.</p></button>
+ </div></section>
+<!-- ADVISOR -->
+<section class="view" id="v-advisor" hidden><h2>Crop Advisor</h2><p class="sub">Tell us about your field. We rank crops by how well they match your season, soil and water.</p>
+ <form class="card" id="advForm" style="margin-top:24px"><div class="grid g3" style="margin-top:0">
+  <div><label for="soil">Soil type</label><select id="soil"><option value="alluvial">Alluvial</option><option value="black">Black (regur)</option><option value="red">Red</option><option value="sandy">Sandy</option><option value="loamy">Loamy</option></select></div>
+  <div><label for="season">Season</label><select id="season"><option value="kharif">Kharif (Jun–Oct)</option><option value="rabi">Rabi (Oct–Mar)</option><option value="zaid">Zaid (Mar–Jun)</option></select></div>
+  <div><label for="water">Water available</label><select id="water"><option value="1">Low (rain-fed)</option><option value="2" selected>Medium</option><option value="3">High (canal / borewell)</option></select></div></div>
+  <div class="row"><button class="btn">Show best crops</button></div></form>
+ <div class="res" id="advOut"></div></section>
+<!-- DOCTOR -->
+<section class="view" id="v-doctor" hidden><h2>Plant Doctor</h2><p class="sub">Tick every symptom you can see on the plant.</p>
+ <div class="card" style="margin-top:24px"><div class="sym" id="symList"></div><div class="row"><button class="btn" id="diagnose">Check symptoms</button><button class="btn ghost" id="clearSym">Clear</button></div></div>
+ <div class="res" id="docOut"></div><p class="note">This is a guide, not a lab test. For severe or spreading problems, take a sample to your nearest Krishi Vigyan Kendra (KVK) or agriculture officer. Follow product labels for any spray.</p></section>
+<!-- CALC -->
+<section class="view" id="v-calc" hidden><h2>Profit Calculator</h2><p class="sub">Choose a crop, then change any number to match your farm.</p>
+ <div class="grid g2"><div class="card"><label for="cCrop">Crop</label><select id="cCrop"></select>
+  <label for="cAcres">Land (acres)</label><input type="number" id="cAcres" value="2" min="0.1" step="0.1">
+  <label for="cCost">Cost per acre (₹)</label><input type="number" id="cCost" min="0">
+  <label for="cYield">Yield per acre (quintal)</label><input type="number" id="cYield" min="0" step="0.5">
+  <label for="cPrice">Selling price (₹ per quintal)</label><input type="number" id="cPrice" min="0"></div>
+  <div class="card" id="calcOut"></div></div></section>
+<!-- CALENDAR -->
+<section class="view" id="v-calendar" hidden><h2>Sowing Calendar</h2><p class="sub">Green is sowing time. Gold is harvest. The outlined column is this month.</p>
+ <div class="cal"><table id="calTable"></table></div>
+ <div class="legend"><span><b style="background:var(--leaf)"></b>Sow</span><span><b style="background:var(--gold)"></b>Harvest</span></div></section>
+<!-- WEATHER -->
+<section class="view" id="v-weather" hidden><h2>Field Weather</h2><p class="sub">Live forecast with simple farm advice. Allow location, or pick a city.</p>
+ <div class="row" style="margin-top:20px"><button class="btn" id="geo">📍 Use my location</button><select id="city" style="width:auto"></select></div>
+ <div class="res" id="wxOut"></div></section>
+</main>
+<button id="chatBtn">🎙️ Ask GreenRoots</button>
+<div id="chat" role="dialog" aria-label="GreenRoots assistant"><header><span>🌿 GreenRoots assistant</span><label style="margin:0;font-weight:500;font-size:.85rem"><input type="checkbox" id="speakOn"> read aloud</label></header>
+ <div id="msgs"></div><form id="cf"><input type="text" id="ci" placeholder="e.g. when to sow wheat?" aria-label="Question"><button type="button" id="mic" title="Speak" aria-label="Speak">🎤</button><button class="btn" style="padding:0 16px">Send</button></form></div>
+<script src="js/data.js"></script><script src="js/app.js"></script><script src="js/tools.js"></script><script src="js/weather.js"></script><script src="js/assistant.js"></script>
+</body></html>
