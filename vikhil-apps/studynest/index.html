@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>StudyNest | Study Smarter</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600&family=Nunito:wght@400;600;700&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css"></head>
+<body>
+<header><div class="bar"><div class="logo">📓 StudyNest</div><nav class="tabs" aria-label="Main">
+ <button class="tab" style="--c:var(--hl)" data-view="home">Today</button><button class="tab" style="--c:var(--mint)" data-view="planner">Planner</button>
+ <button class="tab" style="--c:var(--pink)" data-view="focus">Focus</button><button class="tab" style="--c:var(--sky)" data-view="cards">Flashcards</button>
+ <button class="tab" style="--c:var(--lilac)" data-view="quiz">Notes → Quiz</button><button class="tab" style="--c:var(--hl)" data-view="grades">Grades</button></nav></div></header>
+<main>
+<!-- HOME -->
+<section class="view" id="v-home">
+ <p class="hand">Hello, student!</p><h1>Plan it. Focus. <span class="hl">Remember it.</span></h1>
+ <p class="sub">Your exams, study plan, focus time and flashcards in one notebook. Everything is saved on this device.</p>
+ <div class="grid g4">
+  <div class="sticky" style="background:var(--hl);--r:-1.5deg"><p>Next exam</p><div class="n" id="hExam">–</div><small id="hExamName">Add one in Planner</small></div>
+  <div class="sticky" style="background:var(--mint);--r:1deg"><p>Focus today</p><div class="n" id="hFocus">0 min</div><small>Use the Focus timer</small></div>
+  <div class="sticky" style="background:var(--sky);--r:-.5deg"><p>Study streak</p><div class="n" id="hStreak">0 days</div><small>Study a little every day</small></div>
+  <div class="sticky" style="background:#FFC4D1;--r:1.5deg"><p>Cards due</p><div class="n" id="hDue">0</div><small>Spaced repetition</small></div></div>
+ <div class="grid g2"><div class="card"><h3>Today's study plan</h3><div id="hTasks" style="margin-top:10px"></div></div>
+  <div class="card"><h3>Jump in</h3><div class="row"><button class="btn hl2" data-view="planner">Build my plan</button><button class="btn ghost" data-view="focus">Start focus</button><button class="btn ghost" data-view="quiz">Make a quiz</button><button class="btn ghost" data-view="grades">Can I skip class?</button></div></div></div></section>
+<!-- PLANNER -->
+<section class="view" id="v-planner" hidden><h2>Smart Study Planner</h2><p class="sub">Add each subject with its exam date and difficulty. The planner gives harder, sooner subjects more time each day.</p>
+ <div class="grid g2"><div class="card"><form id="subForm"><label for="sName">Subject</label><input id="sName" required placeholder="e.g. Physics">
+  <label for="sDate">Exam date</label><input type="date" id="sDate" required><label for="sDiff">Difficulty for you</label><select id="sDiff"><option value="1">Easy</option><option value="2" selected>Medium</option><option value="3">Hard</option></select>
+  <div class="row"><button class="btn hl2">Add subject</button></div></form><div id="subList" style="margin-top:14px"></div></div>
+  <div class="card"><label for="hours">Study hours per day</label><input type="number" id="hours" min="1" max="14" step="0.5" value="4"><div class="row"><button class="btn" id="build">Build my plan</button></div>
+   <p class="tip">Tip: plans update from today, so rebuild after adding subjects.</p></div></div>
+ <div class="card" style="margin-top:22px"><h3>Your plan</h3><div id="planOut"><p class="sub">Add subjects, then press Build my plan.</p></div></div></section>
+<!-- FOCUS -->
+<section class="view" id="v-focus" hidden><h2>Focus Room</h2><p class="sub">Work in short bursts. Add background sound that is generated in your browser, so nothing is downloaded.</p>
+ <div class="card" style="margin-top:24px;max-width:720px"><div class="timer" id="clock">25:00</div><div class="big"><i id="pbar" style="width:0"></i></div>
+  <div class="row" style="justify-content:center"><button class="btn hl2" id="startT">Start</button><button class="btn ghost" id="resetT">Reset</button></div>
+  <div class="row" style="justify-content:center"><label style="margin:0">Focus <input type="number" id="fMin" value="25" min="1" max="120" style="width:70px;display:inline"></label><label style="margin:0">Break <input type="number" id="bMin" value="5" min="1" max="60" style="width:70px;display:inline"></label></div>
+  <hr style="margin:22px 0;border:1px dashed var(--line)"><h3>Background sound</h3><div class="row"><button class="btn ghost" data-snd="brown">🌊 Brown noise</button><button class="btn ghost" data-snd="rain">🌧️ Rain</button><button class="btn ghost" data-snd="off">🔇 Off</button></div>
+  <label for="vol">Volume</label><input type="range" id="vol" min="0" max="100" value="30"></div></section>
+<!-- CARDS -->
+<section class="view" id="v-cards" hidden><h2>Flashcards</h2><p class="sub">Cards you miss come back tomorrow. Cards you know come back later: 1 day, 3 days, then 7 days.</p>
+ <div class="grid g2"><div class="card"><h3 id="studyHead">Study</h3><div class="flash card" id="flash" style="box-shadow:none;margin-top:12px" tabindex="0" role="button">Press “Start studying”</div>
+  <div class="row"><button class="btn hl2" id="startCards">Start studying</button><button class="btn ghost" id="knew" hidden>✅ I knew it</button><button class="btn ghost" id="missed" hidden>❌ Missed it</button></div></div>
+  <div class="card"><h3>Add a card</h3><form id="cardForm"><label for="cDeck">Deck / subject</label><input id="cDeck" required placeholder="Biology"><label for="cFront">Question</label><input id="cFront" required><label for="cBack">Answer</label><input id="cBack" required>
+  <div class="row"><button class="btn">Add card</button></div></form><p class="sub" id="cardCount"></p></div></div></section>
+<!-- QUIZ -->
+<section class="view" id="v-quiz" hidden><h2>Notes → Quiz</h2><p class="sub">Paste your notes. StudyNest hides the key terms and makes a fill-in-the-blank quiz. It works best with full sentences.</p>
+ <div class="card" style="margin-top:22px"><label for="notes">Your notes</label><textarea id="notes" placeholder="Photosynthesis is the process by which plants convert sunlight into chemical energy. The chloroplast contains chlorophyll..."></textarea>
+  <div class="row"><button class="btn hl2" id="mkQuiz">Make quiz</button><button class="btn ghost" id="sampleNotes">Use sample notes</button></div></div><div id="quizOut" class="card" style="margin-top:22px" hidden></div></section>
+<!-- GRADES -->
+<section class="view" id="v-grades" hidden><h2>Grades &amp; Attendance</h2>
+ <div class="grid g2"><div class="card"><h3>CGPA / SGPA calculator</h3><p class="sub">10-point scale. Add a row for each subject.</p><table id="gTable"></table><div class="row"><button class="btn ghost" id="addG">+ Add subject</button></div>
+  <p class="big-num" id="gpa">–</p></div>
+  <div class="card"><h3>Attendance: can I skip?</h3><label for="att">Classes attended</label><input type="number" id="att" min="0" value="30"><label for="tot">Total classes so far</label><input type="number" id="tot" min="1" value="40">
+  <label for="tgt">Required attendance %</label><input type="number" id="tgt" min="1" max="100" value="75"><p class="big-num" id="attPct">–</p><p id="attMsg"></p></div></div></section>
+</main>
+<script src="js/app.js"></script><script src="js/planner.js"></script><script src="js/focus.js"></script><script src="js/cards.js"></script><script src="js/quiz.js"></script><script src="js/grades.js"></script><script src="js/home.js"></script>
+</body></html>

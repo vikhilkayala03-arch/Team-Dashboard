@@ -1,0 +1,13 @@
+import {mkdir,copyFile,cp,readFile,access} from 'node:fs/promises';
+import {execFileSync} from 'node:child_process';
+import path from 'node:path';
+import {fileURLToPath} from 'node:url';
+const root=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..');
+for(const file of ['src/app.js','src/views.js','src/core.js','src/catalog.js','src/store.js','src/icons.js'])execFileSync(process.execPath,['--check',path.join(root,file)],{stdio:'inherit'});
+for(const file of ['assets/skincare-hero.png','assets/product-atlas.png','assets/favicon.svg'])await access(path.join(root,file));
+const html=await readFile(path.join(root,'index.html'),'utf8');
+if(!html.includes('SkinMix'))throw new Error('Missing app title');
+await mkdir(path.join(root,'dist'),{recursive:true});
+for(const file of ['index.html','styles.css'])await copyFile(path.join(root,file),path.join(root,'dist',file));
+for(const dir of ['src','assets'])await cp(path.join(root,dir),path.join(root,'dist',dir),{recursive:true});
+console.log('SkinMix build passed. Static app written to dist/.');

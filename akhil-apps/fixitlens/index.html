@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>FixIt Lens · Quadrant</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M14.8 17.2H2.05A14 14 0 0 0 14.8 29.95Z' fill='%23127a82'/%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anek+Latin:wdth,wght@75..125,100..800&family=Anek+Telugu:wdth,wght@75..125,100..800&family=Anek+Devanagari:wdth,wght@75..125,100..800&display=swap">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
+  <link rel="stylesheet" href="../shared/quadrant.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="app-fixitlens">
+  <main class="page">
+    <section class="app-head">
+      <div>
+        <h1>FixIt Lens</h1>
+        <p>Photograph something that is broken: a leaking tap, a fan that will not spin, a bike part. See what is likely wrong, whether it is safe to fix yourself, the steps and the cost, and repair shops near you.</p>
+      </div>
+      <svg class="head-art" viewBox="0 0 120 120" fill="none" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M78 14a24 24 0 0 0-22 33L16 87a12 12 0 0 0 17 17l40-40a24 24 0 0 0 33-22l-14 14-14-4-4-14z"/></svg>
+    </section>
+
+    <ol class="flow" id="flow">
+      <li class="now">Show the problem</li>
+      <li>See the fix</li>
+      <li>Find help nearby</li>
+    </ol>
+
+    <div class="grid-2">
+      <div class="panel">
+        <div class="panel-head"><h2>Show the problem</h2><span class="hint">Up to 3 photos</span></div>
+        <div id="file-note" hidden style="margin-bottom:12px"></div>
+        <div id="shots"></div>
+        <div class="field" style="margin-top:14px">
+          <label for="what">What is happening?</label>
+          <div class="say-row"><textarea id="what" placeholder="For example: water drips from the tap even when closed. Or: fan hums but does not turn."></textarea>
+            <button class="btn btn-quiet mic" type="button" id="mic" hidden aria-label="Speak instead of typing" title="Speak instead of typing"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/></svg></button></div>
+          <span class="help">A photo plus one sentence gives the best answer. A photo alone also works.</span>
+        </div>
+        <div class="row" style="margin-top:14px"><button class="btn btn-app" type="button" id="fix-btn" disabled>Find the problem</button></div>
+      </div>
+
+      <div class="panel result" id="result">
+        <div class="empty">
+          <h3>The likely problem and fix appear here</h3>
+          <p>Taps and pipes, fans and switches, mixers, coolers, phones and chargers, bike and scooter parts, cycles, furniture, slippers and bags.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="panel nearby" id="nearby">
+      <div class="panel-head"><h2>Find help nearby</h2><span class="hint" id="near-hint">Shops come from OpenStreetMap; some local shops may be missing</span></div>
+      <div class="near-grid">
+        <div class="stack">
+          <div id="place"></div>
+          <div class="field"><label for="trade">Who do you need?</label><select id="trade"></select></div>
+          <div class="field"><label for="radius">Within</label><select id="radius"><option value="2000">2 km</option><option value="5000" selected>5 km</option><option value="10000">10 km</option></select></div>
+          <div class="row"><button class="btn btn-app" type="button" id="find-btn">Show shops</button><a class="btn" id="gmaps" target="_blank" rel="noopener" href="https://www.google.com/maps">Search on Google Maps</a></div>
+        </div>
+        <div>
+          <div class="map" id="map"><div class="empty"><h3>Map appears here</h3><p>Choose your location and press Show shops.</p></div></div>
+          <ul class="list shops" id="shops"></ul>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script src="../config.js"></script>
+  <script src="../shared/quadrant.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js" defer></script>
+  <script src="script.js"></script>
+</body>
+</html>

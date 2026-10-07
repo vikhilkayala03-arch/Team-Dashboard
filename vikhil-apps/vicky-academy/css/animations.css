@@ -1,0 +1,5 @@
+@keyframes float{50%{transform:translateY(-12px)}}
+.chip{animation:float 5s ease-in-out infinite}.chip:nth-child(3){animation-delay:1s}.chip:nth-child(4){animation-delay:2s}.chip:nth-child(5){animation-delay:3s}
+@keyframes pop{from{transform:scale(.95);opacity:0}}
+.dish,.m{animation:pop .25s ease-out}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important;scroll-behavior:auto!important}}

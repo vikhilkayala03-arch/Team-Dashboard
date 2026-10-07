@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Wanderly | Plan Trips Together</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css"></head>
+<body>
+<nav class="nav" aria-label="Main"><button data-view="home">✈️ Wanderly</button><button data-view="plan">Trip Planner</button><button data-view="split">Split Costs</button><button data-view="pack">Packing</button><button data-view="talk">Phrasebook</button><button data-view="money">Currency</button></nav>
+<section class="view" id="v-home"><div class="sky"><div class="stars"></div><h1>Plan the trip.<br>Split the bill.<br>Say hello.</h1><p>Wanderly builds your itinerary and budget, tracks who owes whom, packs your bag and teaches you how to say it out loud.</p>
+ <div class="row" style="justify-content:center"><button class="btn" data-view="plan">Plan my trip</button><button class="btn ghost" data-view="talk">Try the phrasebook</button></div></div>
+ <main><div class="grid g3" style="margin-top:0">
+  <button class="card tool" data-view="plan"><div class="e">🗺️</div><h3>Trip Planner</h3><p class="sub">Pick a destination, days and interests. Get a day-by-day plan and budget as a boarding pass.</p></button>
+  <button class="card tool" data-view="split"><div class="e">🧾</div><h3>Split Costs</h3><p class="sub">Add shared expenses. Wanderly works out the fewest payments to settle up.</p></button>
+  <button class="card tool" data-view="pack"><div class="e">🧳</div><h3>Smart Packing</h3><p class="sub">A checklist that adapts to climate, trip length and activities.</p></button>
+  <button class="card tool" data-view="talk"><div class="e">🗣️</div><h3>Phrasebook</h3><p class="sub">Essential phrases in 4 languages. Tap to hear them spoken.</p></button>
+  <button class="card tool" data-view="money"><div class="e">💱</div><h3>Currency</h3><p class="sub">Convert rupees to local money using live rates when you're online.</p></button>
+  <div class="card"><div class="e" style="font-size:2.2rem">⭐</div><h3>Best time to go</h3><p class="sub" id="bestNow"></p></div></div></main></section>
+<main class="page">
+<section class="view" id="v-plan" hidden><h2>Trip Planner</h2><p class="sub">Itineraries are built from curated ideas for each destination. Costs are estimates per person per day.</p>
+ <div class="card" style="margin-top:22px"><div class="grid g3" style="margin-top:0">
+  <div><label for="pDest">Destination</label><select id="pDest"></select></div><div><label for="pDays">Days</label><input type="number" id="pDays" min="1" max="14" value="4"></div><div><label for="pPeople">Travellers</label><input type="number" id="pPeople" min="1" max="20" value="2"></div></div>
+  <label for="pTier">Travel style</label><select id="pTier"><option value="budget">Budget</option><option value="mid" selected>Comfortable</option><option value="luxury">Luxury</option></select>
+  <label>Interests</label><div id="pInt"></div><div class="row"><button class="btn" id="mkTrip">Build itinerary</button><button class="btn ghost" id="shuffle">🔀 Shuffle ideas</button></div></div>
+ <div id="tripOut"></div></section>
+<section class="view" id="v-split" hidden><h2>Split Costs</h2><p class="sub">Add everyone on the trip, then each expense. Costs are split equally among the people you choose.</p>
+ <div class="grid g2"><div class="card"><h3>Travellers</h3><form id="memForm" class="row" style="margin-top:8px"><input id="mName" placeholder="Name" required style="flex:1"><button class="btn dark">Add</button></form><div id="memList"></div>
+  <h3 style="margin-top:22px">Add expense</h3><form id="expForm"><label for="eWhat">What for?</label><input id="eWhat" required placeholder="Dinner"><label for="eAmt">Amount (₹)</label><input type="number" id="eAmt" min="1" step="any" required><label for="ePaid">Paid by</label><select id="ePaid"></select><label>Split between</label><div id="eWho"></div><div class="row"><button class="btn">Add expense</button></div></form></div>
+  <div class="card"><h3>Who owes whom</h3><div id="settle"><p class="sub">Add travellers and expenses.</p></div><h3 style="margin-top:22px">Expenses</h3><table id="expTable"></table><div class="row"><button class="btn ghost" id="clearSplit">Clear all</button></div></div></div></section>
+<section class="view" id="v-pack" hidden><h2>Smart Packing</h2><p class="sub">Choose your trip and get a checklist. Your ticks are saved.</p>
+ <div class="card" style="margin-top:22px"><div class="grid g3" style="margin-top:0"><div><label for="kType">Climate</label><select id="kType"><option value="beach">Beach / hot</option><option value="mountain">Mountains</option><option value="city">City</option><option value="cold">Cold / snow</option></select></div>
+  <div><label for="kDays">Days</label><input type="number" id="kDays" min="1" max="30" value="5"></div><div><label>Extras</label><span class="chk"><input type="checkbox" value="hiking">Hiking</span><span class="chk"><input type="checkbox" value="swim">Swimming</span><span class="chk"><input type="checkbox" value="work">Work</span></div></div>
+  <div class="row"><button class="btn" id="mkPack">Make my list</button></div></div><div class="card" style="margin-top:22px" id="packOut" hidden></div></section>
+<section class="view" id="v-talk" hidden><h2>Phrasebook</h2><p class="sub">Tap 🔊 to hear a phrase. Voices come from your device, so quality varies, and some devices lack certain languages.</p>
+ <div class="card" style="margin-top:22px"><label for="lang">Language</label><select id="lang"></select><div id="phrases"></div><p class="note" id="voiceNote"></p></div></section>
+<section class="view" id="v-money" hidden><h2>Currency</h2><p class="sub">Convert from Indian rupees. Live rates when online; otherwise approximate stored rates.</p>
+ <div class="card" style="margin-top:22px;max-width:560px"><label for="mAmt">Amount in ₹</label><input type="number" id="mAmt" value="10000" min="0"><label for="mCur">Convert to</label><select id="mCur"></select><p class="big" id="mOut">–</p><p class="note" id="mNote"></p></div></section>
+</main>
+<script src="js/data.js"></script><script src="js/app.js"></script><script src="js/planner.js"></script><script src="js/split.js"></script><script src="js/extras.js"></script>
+</body></html>

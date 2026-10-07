@@ -1,0 +1,5 @@
+@media(max-width:960px){.g4,.g3{grid-template-columns:repeat(2,1fr)}
+.hero .wrap,.dark,.promo{grid-template-columns:1fr}.dark,.promo{padding:40px 28px}.stage{max-width:380px;margin:auto}}
+@media(max-width:700px){.burger{display:block}
+.links{display:none;position:absolute;top:78px;left:0;right:0;background:var(--cream);flex-direction:column;padding:20px 24px;gap:16px;border-bottom:1px solid var(--line)}
+.links.show{display:flex}.nav .pill{display:none}.g4,.g3,.g2{grid-template-columns:1fr}section{padding:56px 0}}

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0c0e16">
+  <meta name="description" content="GadgetPulse — discover gadgets, compare devices and find your next upgrade. A transparent demo built with HTML, CSS and JavaScript.">
+  <title>GadgetPulse — Know it. Compare it. Buy it.</title>
+  <link rel="stylesheet" href="style.css">
+  <script defer src="catalog.js"></script>
+  <script defer src="core.js"></script>
+  <script defer src="media.js"></script>
+  <script defer src="views.js"></script>
+  <script defer src="app.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#content">Skip to content</a>
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="logo" href="#home" aria-label="GadgetPulse home"><span class="logo-mark">⌁</span>Gadget<span>Pulse</span><span class="logo-dot"></span></a>
+      <nav class="desktop-nav" aria-label="Main navigation">
+        <a href="#home">Home</a><a href="#latest">Latest</a><a href="#explore">Devices</a><a href="#compare">Compare</a><a href="#deals">Deals</a><a href="#news">News</a><a href="#trending">Trending</a>
+      </nav>
+      <div class="header-actions">
+        <button class="icon-button" data-action="search-focus" aria-label="Search gadgets">⌕</button>
+        <a class="icon-button" href="#alerts" aria-label="Price alerts">♧<span id="alert-count" class="count"></span></a>
+        <a class="icon-button" href="#wishlist" aria-label="Wishlist">♡<span id="wish-count" class="count"></span></a>
+        <a class="avatar" href="#profile" aria-label="Your profile">GP</a>
+      </div>
+    </div>
+  </header>
+  <div class="demo-banner"><span class="status-dot"></span> HTML · CSS · JavaScript <span class="banner-divider">/</span> Demo catalog <span class="banner-detail">— sample prices, specs &amp; news. No sign-in needed.</span></div>
+  <main id="content" tabindex="-1"><div class="loading">Loading your next upgrade…</div></main>
+  <footer class="site-footer"><div><a class="logo" href="#home">Gadget<span>Pulse</span></a><p>Know it. Compare it. Buy it.</p><p class="muted">The smarter way to discover your next gadget.</p></div><div class="footer-links"><a href="#explore">Explore devices</a><a href="#finder">Find my gadget</a><a href="#nearby">Prices near you</a><a href="#about">About &amp; data sources</a><a href="#admin">Demo catalog manager</a></div><p class="footer-note">Built with HTML, CSS &amp; JavaScript. Saved on this browser. Illustrative device artwork and demo data; confirm details with the manufacturer before buying.</p></footer>
+  <nav class="mobile-nav" aria-label="Mobile navigation"><a href="#home"><span>⌂</span>Home</a><a href="#explore"><span>⌕</span>Explore</a><a class="central" href="#compare"><span>⇄</span>Compare <b id="mobile-compare-count"></b></a><a href="#deals"><span>◇</span>Deals</a><a href="#profile"><span>◎</span>Profile</a></nav>
+  <aside id="compare-tray" class="compare-tray" aria-label="Selected comparison devices" hidden></aside>
+  <dialog id="detail-dialog" aria-labelledby="detail-title"><button class="dialog-close" data-action="close-dialog" aria-label="Close dialog">×</button><div id="detail-body"></div></dialog>
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  <noscript><p class="noscript">Enable JavaScript to search, compare and save gadgets. This website uses plain JavaScript without external libraries.</p></noscript>
+</body>
+</html>

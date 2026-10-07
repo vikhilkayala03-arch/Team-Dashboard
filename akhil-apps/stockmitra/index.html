@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>StockMitra · Quadrant</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M14.8 14.8V2.05A14 14 0 0 0 2.05 14.8Z' fill='%2333409e'/%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anek+Latin:wdth,wght@75..125,100..800&family=Anek+Telugu:wdth,wght@75..125,100..800&family=Anek+Devanagari:wdth,wght@75..125,100..800&display=swap">
+  <link rel="stylesheet" href="../shared/quadrant.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="app-stockmitra">
+  <main class="page">
+    <section class="app-head">
+      <div>
+        <h1>StockMitra</h1>
+        <p>See how a share really moved over the years, check it against simple rules beginners use, and understand an IPO before you apply. Tap any underlined word, or ask Mitra.</p>
+      </div>
+      <svg class="head-art" viewBox="0 0 120 120" fill="none" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 96 34 70l18 14 30-38 30-22"/><path d="M8 112h104"/></svg>
+    </section>
+
+    <div class="tabs" role="tablist" aria-label="StockMitra sections">
+      <button role="tab" id="t-stocks" aria-controls="tab-stocks" aria-selected="true" data-tab="stocks">Shares</button>
+      <button role="tab" id="t-ipo" aria-controls="tab-ipo" aria-selected="false" data-tab="ipo">IPO checker</button>
+      <button role="tab" id="t-words" aria-controls="tab-words" aria-selected="false" data-tab="words">Words explained</button>
+    </div>
+
+    <!-- ================= SHARES ================= -->
+    <section id="tab-stocks" role="tabpanel" aria-labelledby="t-stocks">
+      <div class="panel">
+        <div class="panel-head"><h2>Pick a share</h2><span class="hint" id="av-status"></span></div>
+        <div id="key-note" class="key-note"></div>
+        <div class="chips" id="stock-chips" aria-label="Popular shares"></div>
+        <form id="sym-form" class="sym-form">
+          <div class="field"><label for="sym">Or type any BSE code</label>
+            <input class="input" id="sym" placeholder="For example: WIPRO" autocomplete="off" spellcheck="false"></div>
+          <button class="btn btn-app" type="submit">Show prices</button>
+          <label class="btn">Upload price file (CSV)<input type="file" id="csv" accept=".csv,text/csv" hidden></label>
+        </form>
+        <p class="small muted" style="margin-top:10px">A CSV of past prices can be downloaded free from the "Historical data" page of any share on nseindia.com or bseindia.com. It needs a Date and a Close column.</p>
+      </div>
+
+      <div id="stock-empty" class="panel empty">
+        <h3>Choose a share above to see its past prices</h3>
+        <p>Not sure where to start? Try <b>Nifty 50 ETF</b>: one fund that holds India's 50 biggest companies.</p>
+      </div>
+
+      <div id="stock-view" hidden>
+        <div class="panel">
+          <div class="stock-top">
+            <div>
+              <h2 id="s-name"></h2>
+              <p class="muted" id="s-about"></p>
+            </div>
+            <div class="price-now">
+              <span class="price" id="s-price"></span>
+              <span id="s-change"></span>
+            </div>
+          </div>
+          <div class="chart-bar">
+            <div class="seg" id="range" role="group" aria-label="Time range">
+              <button type="button" data-w="52">1 year</button><button type="button" data-w="156">3 years</button><button type="button" data-w="260" aria-pressed="true">5 years</button><button type="button" data-w="0">All</button>
+            </div>
+            <div class="legend" id="legend"></div>
+          </div>
+          <div class="chart-wrap" id="chart-wrap">
+            <canvas id="chart" role="img" aria-label="Price chart"></canvas>
+            <div class="chart-tip" id="chart-tip" hidden></div>
+          </div>
+          <p class="ai-note" id="s-source"></p>
+        </div>
+
+        <div class="grid-2-wide" style="margin-top:16px">
+          <div class="panel">
+            <div class="panel-head"><h2>Beginner rules check</h2><span class="hint" id="rules-sum"></span></div>
+            <ul class="rules" id="rules"></ul>
+            <div class="notice" style="margin-top:14px"><span class="ic">i</span><div>This is a learning tool, not a buy or sell tip. Past prices do not promise future prices. For advice about your own money, talk to a <button type="button" class="term" data-term="sebi">SEBI</button>-registered adviser.</div></div>
+            <div class="row" style="margin-top:14px"><button class="btn btn-app" id="ask-stock" type="button">Ask Mitra about this share</button></div>
+          </div>
+          <div class="panel">
+            <div class="panel-head"><h2>Every month, or all at once?</h2></div>
+            <p class="muted small">What would have happened if you had invested a fixed amount every month (<button type="button" class="term" data-term="sip">SIP</button>), compared with putting the same total in on the first day (<button type="button" class="term" data-term="lump-sum">lump sum</button>)?</p>
+            <div class="sip-inputs">
+              <div class="field"><label for="sip-amt">Every month</label><input class="input" id="sip-amt" type="number" min="100" step="100" value="1000" inputmode="numeric"></div>
+              <div class="field"><label for="sip-yrs">For the last</label><select id="sip-yrs"></select></div>
+            </div>
+            <div id="sip-out"></div>
+          </div>
+        </div>
+
+        <div class="panel" style="margin-top:16px">
+          <div class="panel-head"><h2>Past prices by year</h2><span class="hint">Weekly closing prices</span></div>
+          <div class="table-wrap"><table class="data" id="years"></table></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= IPO ================= -->
+    <section id="tab-ipo" role="tabpanel" aria-labelledby="t-ipo" hidden>
+      <div class="grid-2-wide">
+        <div class="panel">
+          <div class="panel-head"><h2>Check an IPO</h2><button class="btn btn-sm" type="button" id="ipo-photo-btn">Fill from a photo</button></div>
+          <div id="ipo-photo" hidden style="margin-bottom:16px">
+            <div id="ipo-shots"></div>
+            <div class="row" style="margin-top:10px"><button class="btn btn-app" type="button" id="ipo-read">Read the details</button><span class="small muted">Photo of the IPO page in your broker app, or a newspaper ad.</span></div>
+          </div>
+          <form id="ipo-form" class="ipo-form">
+            <div class="field span-2"><label for="i-name">Company name</label><input class="input" id="i-name" placeholder="As shown in your broker app"></div>
+            <div class="field"><label for="i-price">Upper <button type="button" class="term" data-term="price-band">price band</button> (₹)</label><input class="input" id="i-price" type="number" min="1" step="any" inputmode="decimal"></div>
+            <div class="field"><label for="i-lot"><button type="button" class="term" data-term="lot">Lot size</button> (shares)</label><input class="input" id="i-lot" type="number" min="1" step="1" inputmode="numeric"></div>
+            <div class="field"><label for="i-size">Total issue size (₹ crore)</label><input class="input" id="i-size" type="number" min="0" step="any" inputmode="decimal"></div>
+            <div class="field"><label for="i-fresh"><button type="button" class="term" data-term="fresh-issue">Fresh issue</button> part (₹ crore)</label><input class="input" id="i-fresh" type="number" min="0" step="any" inputmode="decimal"><span class="help">The rest is <button type="button" class="term" data-term="ofs">OFS</button>.</span></div>
+            <div class="field"><label for="i-pe">Company <button type="button" class="term" data-term="pe">P/E</button> at upper price</label><input class="input" id="i-pe" type="number" min="0" step="any" inputmode="decimal"></div>
+            <div class="field"><label for="i-peer">Similar companies' P/E</label><input class="input" id="i-peer" type="number" min="0" step="any" inputmode="decimal"><span class="help">In the RHP under "Basis for issue price".</span></div>
+            <div class="field"><label for="i-retail"><button type="button" class="term" data-term="retail">Retail</button> subscribed (times)</label><input class="input" id="i-retail" type="number" min="0" step="any" inputmode="decimal"></div>
+            <div class="field"><label for="i-qib"><button type="button" class="term" data-term="qib">QIB</button> subscribed (times)</label><input class="input" id="i-qib" type="number" min="0" step="any" inputmode="decimal"></div>
+            <div class="field"><label for="i-close">Last day to apply</label><input class="input" id="i-close" type="date"></div>
+            <div class="row span-2"><button class="btn btn-app" type="submit">Check this IPO</button><button class="btn btn-quiet" type="reset" id="ipo-clear">Clear</button></div>
+          </form>
+        </div>
+        <div class="stack">
+          <div class="panel" id="ipo-result">
+            <div class="empty" style="padding:20px 8px"><h3>Fill in what you know</h3><p>Even the price and lot size are enough to see how much you need. Every extra detail adds one more check.</p></div>
+          </div>
+          <div class="panel">
+            <div class="panel-head"><h3>Open and upcoming IPOs</h3></div>
+            <p class="small muted">Mitra can search the web for the current list. This needs a paid Gemini plan; with a free key, use the official list.</p>
+            <div class="row" style="margin-top:10px"><button class="btn" type="button" id="ipo-live">Find current IPOs</button><a class="btn btn-quiet" href="https://www.nseindia.com/market-data/all-upcoming-issues-ipo" target="_blank" rel="noopener">Official NSE list</a></div>
+            <div id="ipo-live-out" style="margin-top:12px"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= WORDS ================= -->
+    <section id="tab-words" role="tabpanel" aria-labelledby="t-words" hidden>
+      <div class="panel">
+        <div class="panel-head"><h2>Words explained</h2><span class="hint" id="words-count"></span></div>
+        <div class="field" style="max-width:420px"><label for="w-search">Search a word</label><input class="input" id="w-search" placeholder="For example: SIP, lot size, P/E" autocomplete="off"></div>
+        <ul class="words" id="words"></ul>
+      </div>
+    </section>
+  </main>
+
+  <!-- Mitra, the helper bot -->
+  <button class="mitra-fab" id="mitra-fab" type="button" aria-controls="mitra" aria-expanded="false"><span class="mitra-face" aria-hidden="true">M</span>Ask Mitra</button>
+  <aside class="mitra" id="mitra" aria-label="Mitra helper" hidden>
+    <div class="mitra-head">
+      <div><b>Mitra</b><span class="small muted" id="mitra-mode"></span></div>
+      <button class="btn btn-sm btn-quiet" type="button" id="mitra-close" aria-label="Close Mitra">Close</button>
+    </div>
+    <div class="chat">
+      <div class="chat-log" id="mitra-log" aria-live="polite"></div>
+      <div>
+        <div class="quick" id="mitra-quick"></div>
+        <form class="chat-form" id="mitra-form"><label class="sr-only" for="mitra-q">Your question</label><input class="input" id="mitra-q" placeholder="Ask any money word or question" autocomplete="off"><button class="btn btn-app" type="submit">Ask</button></form>
+      </div>
+    </div>
+  </aside>
+  <div class="term-pop" id="term-pop" role="dialog" aria-label="Word meaning" hidden></div>
+
+  <script src="../config.js"></script>
+  <script src="../shared/quadrant.js"></script>
+  <script src="data.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
