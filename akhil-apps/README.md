@@ -74,3 +74,4 @@ Our team follows:
 **Fork → Clone → Branch → Develop → Commit → Push → Pull Request → Review → Merge**
 
 Each team member works on a separate branch and contributes through Pull Requests.
+Developed by Akhil - Dashboard Contributor
